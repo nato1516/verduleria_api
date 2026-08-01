@@ -6,9 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductoController;
 
 Route::post('/login', [UserController::class, 'login']);
+Route::resource('productos', ProductoController::class);
 
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     Route::post('/registrar', [UserController::class, 'Registrar']);
-    Route::resource('productos', ProductoController::class);
 });
