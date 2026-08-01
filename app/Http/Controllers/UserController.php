@@ -95,4 +95,12 @@ class UserController extends Controller
             'usuario'=>$usuarioEncontrado
         ]);
     }
+    public function show(User $usuario)
+    {
+        $usuarioEncontrado = User::where('id',$usuario->id)->first();
+        return response()->json([
+            'success'=>true,
+            'usuario'=>$usuarioEncontrado
+        ]);
+    }
 }
