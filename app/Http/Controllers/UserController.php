@@ -77,7 +77,7 @@ class UserController extends Controller
     }
     public function update(Request $request,  $usuario)
     {
-        $usuarioEncontrado = User::where('id', $usuario);
+        $usuarioEncontrado = User::where('id', $usuario)->first();
         if (!$usuarioEncontrado) {
             return response()->json([
                 'mensaje' => 'El usuario no se encontro'
