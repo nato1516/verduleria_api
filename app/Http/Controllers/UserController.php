@@ -91,7 +91,7 @@ class UserController extends Controller
         $usuarioEncontrado->emaik = $request->email;
         $usuarioEncontrado->save();
         return response()->json([
-            'mensaje' => 'Usuario actualizado con exito',
+            'success' => true,
             'usuario'=>$usuarioEncontrado
         ]);
     }
