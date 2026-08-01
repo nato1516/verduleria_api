@@ -30,6 +30,12 @@ class UserController extends Controller
             'password' => 'required'
         ]);
         $usuarioEncontrado = User::where('name', $request->name)->first();
+        if($usuarioEncontrado->activo === 'inactivo'){
+            return response()->json([
+                'success'=>false,
+                'mensaje'=>'El usuario esta desactivado'
+            ]);
+        }
         if (!$usuarioEncontrado) {
             return response()->json(
                 [
@@ -66,7 +72,8 @@ class UserController extends Controller
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'role' => $request->role,
-            'email' => $request->email
+            'email' => $request->email,
+            'activo'=>'activo'
         ]);
 
 
@@ -85,10 +92,12 @@ class UserController extends Controller
         }
         $request->validate([
             'name' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'activo'=>'required'
         ]);
         $usuarioEncontrado->name = $request->name;
         $usuarioEncontrado->email = $request->email;
+        $usuarioEncontrado->activo = $request->activo;
         $usuarioEncontrado->save();
         return response()->json([
             'success' => true,
