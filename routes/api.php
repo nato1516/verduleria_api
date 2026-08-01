@@ -10,5 +10,5 @@ Route::post('/registrar', [UserController::class, 'Registrar']);
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::resource('usuarios', UserController::class);
     Route::resource('productos', ProductoController::class);
-
+    Route::get('/totalUser', [UserController::class, 'contarUsuarios']);
 });
