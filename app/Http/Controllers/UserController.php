@@ -33,8 +33,9 @@ class UserController extends Controller
         $usuarioEncontrado->remember_token = $token;
         $usuarioEncontrado->save();
         return response()->json([
-            'success'=>'true',
-            $usuarioEncontrado
+            'success' => true,
+            'usuario' => $usuarioEncontrado,
+            'token' => $token
         ]);
     }
     public function Registrar(Request $request)
@@ -60,23 +61,23 @@ class UserController extends Controller
             'usuario' => $usuarioCreado
         ], 201);
     }
-     public function update(Request $request,  $usuario)
+    public function update(Request $request,  $usuario)
     {
-        $usuarioEncontrado = User::where('id',$usuario);
-        if(!$usuarioEncontrado){
+        $usuarioEncontrado = User::where('id', $usuario);
+        if (!$usuarioEncontrado) {
             return response()->json([
-                'mensaje'=>'El usuario no se encontro'
+                'mensaje' => 'El usuario no se encontro'
             ]);
         }
         $request->validate([
-            'name'=>'required',
-            'email'=>'required'
+            'name' => 'required',
+            'email' => 'required'
         ]);
-        $usuarioEncontrado ->name =$request->name;
-        $usuarioEncontrado->emaik=$request->email;
+        $usuarioEncontrado->name = $request->name;
+        $usuarioEncontrado->emaik = $request->email;
         $usuarioEncontrado->save();
         return response()->json([
-            'mensaje'=>'Usuario actualizado con exito'
+            'mensaje' => 'Usuario actualizado con exito'
         ]);
     }
 }
