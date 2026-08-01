@@ -33,6 +33,7 @@ class UserController extends Controller
         $usuarioEncontrado->remember_token = $token;
         $usuarioEncontrado->save();
         return response()->json([
+            'success'=>'true',
             $usuarioEncontrado
         ]);
     }
