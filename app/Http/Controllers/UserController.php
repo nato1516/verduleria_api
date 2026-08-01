@@ -9,6 +9,20 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function index(){
+        $usuarios = User::all();
+        return response()->json([
+            'success'=>true,
+            'usuario'=>$usuarios
+        ],200);
+    }
+    public function contarUsuarios(){
+        $totalUsuarios= User::all()->count();
+        return response()->json([
+            'success'=>true,
+            'total'=>$totalUsuarios
+        ],200);
+    }
     public function login(Request $request)
     {
         $request->validate([
@@ -77,7 +91,8 @@ class UserController extends Controller
         $usuarioEncontrado->emaik = $request->email;
         $usuarioEncontrado->save();
         return response()->json([
-            'mensaje' => 'Usuario actualizado con exito'
+            'mensaje' => 'Usuario actualizado con exito',
+            'usuario'=>$usuarioEncontrado
         ]);
     }
 }

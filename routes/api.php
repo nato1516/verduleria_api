@@ -8,7 +8,7 @@ use App\Http\Controllers\ProductoController;
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/registrar', [UserController::class, 'Registrar']);
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-
+    Route::resource('usuarios', UserController::class);
     Route::resource('productos', ProductoController::class);
 
 });
