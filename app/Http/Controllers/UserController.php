@@ -88,7 +88,7 @@ class UserController extends Controller
             'email' => 'required'
         ]);
         $usuarioEncontrado->name = $request->name;
-        $usuarioEncontrado->emaik = $request->email;
+        $usuarioEncontrado->email = $request->email;
         $usuarioEncontrado->save();
         return response()->json([
             'success' => true,
