@@ -71,7 +71,7 @@ class UserController extends Controller
 
 
         return response()->json([
-            'mensaje' => 'Usuario registrado correctamente',
+            'success' => true,
             'usuario' => $usuarioCreado
         ], 201);
     }
