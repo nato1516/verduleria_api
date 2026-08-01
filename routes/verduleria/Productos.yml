@@ -1,0 +1,16 @@
+info:
+  name: Productos
+  type: http
+
+http:
+  method: GET
+  url: http://127.0.0.1:8000/api/productos
+  auth:
+    type: bearer
+    token: v39Rh43IF41X01hBAhfxJHP5WJCEE8t5ZWVsjHeVffbab5b0
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

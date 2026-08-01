@@ -1,0 +1,24 @@
+info:
+  name: Login
+  type: http
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/api/login
+  body:
+    type: multipart-form
+    data:
+      - name: name
+        type: text
+        value: admin
+      - name: password
+        type: text
+        value: Admin4657
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+​

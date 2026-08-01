@@ -1,0 +1,33 @@
+info:
+  name: registrar
+  type: http
+
+http:
+  method: POST
+  url: http://127.0.0.1:8000/api/registrar
+  headers:
+    - name: Accept
+      value: application/json
+  body:
+    type: multipart-form
+    data:
+      - name: name
+        type: text
+        value: admin
+      - name: email
+        type: text
+        value: admin@gmail.com
+      - name: password
+        type: text
+        value: Admin4657
+      - name: role
+        type: text
+        value: admin
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+​
