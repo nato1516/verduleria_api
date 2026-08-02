@@ -40,9 +40,6 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-            dd($request->file('image_path'));
-
-
         $request->validate([
 
             'nombre' => 'required',
