@@ -12,11 +12,11 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos=Producto::where('activo','activo')->get();
+        $productos = Producto::where('activo', 'activo')->get();
         return response()->json([
-            'success'=>true,
-            'productos'=>$productos
-        ],200);
+            'success' => true,
+            'productos' => $productos
+        ], 200);
     }
 
     /**
@@ -33,32 +33,39 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'=>'required',
-            'categoria'=>'required',
-            'descripcion'=>'nullable',
-            'precio'=>'required|numeric',
-            'precio_mayor'=>'required|numeric',
-            'image_path'=>'nullable|mimes:jpg,jepg,png|max:2024'
+            'nombre' => 'required',
+            'categoria' => 'required',
+            'descripcion' => 'nullable',
+            'precio' => 'required|numeric',
+            'precio_mayor' => 'required|numeric',
+            'image_path'=>'nullable|mimes:jpg,jpeg,png|max:2024'
         ]);
-        $imagen=null;
-        if($request->image_path){
-             $imagen = $request->file('image_path')->store('productos', 'public');
-        }
-        $productoCreado=Producto::create([
-            'nombre'=> $request->nombre,
-            'categoria'=>$request->categoria,
-            'descripcion'=>$request->descripcion,
-            'precio'=>$request->precio,
-            'precio_mayor'=>$request->precio_mayor,
-            'modal_id' => 'modal' . $request->nombre,  
-            'imnage_path'=>$imagen     
-        ]);
-        return response()->json([
-            'success'=>true,
-            'producto'=>$productoCreado
-        ],201);
-    }
 
+
+        $productoCreado = Producto::create([
+
+            'nombre' => $request->nombre,
+
+            'categoria' => $request->categoria,
+
+            'descripcion' => $request->descripcion,
+
+            'precio' => $request->precio,
+
+            'precio_mayor' => $request->precio_mayor,
+
+            'modal_id' => 'modal' . $request->nombre,
+
+            'image_path' => $request->image_path
+
+        ]);
+
+
+        return response()->json([
+            'success' => true,
+            'producto' => $productoCreado
+        ], 201);
+    }
     /**
      * Display the specified resource.
      */
