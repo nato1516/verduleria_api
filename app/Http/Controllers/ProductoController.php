@@ -18,7 +18,14 @@ class ProductoController extends Controller
             'productos' => $productos
         ], 200);
     }
-
+     public function inactivo()
+    {
+        $productos = Producto::where('activo', 'inactivo')->get();
+        return response()->json([
+            'success' => true,
+            'productos' => $productos
+        ], 200);
+    }
     /**
      * Show the form for creating a new resource.
      */

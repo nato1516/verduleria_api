@@ -11,4 +11,5 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::resource('productos', ProductoController::class);
     Route::get('/totalUser', [UserController::class, 'contarUsuarios']);
     Route::post('/registrar', [UserController::class, 'Registrar']);
+    Route::post('/productos/inactivo', [ProductoController::class, 'inactivo']);
 });
