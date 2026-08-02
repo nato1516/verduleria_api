@@ -13,7 +13,10 @@ class ProductoController extends Controller
     public function index()
     {
         $productos=Producto::where('activo','activo')->get();
-        return response()->json($productos);
+        return response()->json([
+            'success'=>true,
+            'productos'=>$productos
+        ],200);
     }
 
     /**
@@ -41,7 +44,7 @@ class ProductoController extends Controller
         if($request->image_path){
              $imagen = $request->file('image_path')->store('productos', 'public');
         }
-        $usuarioCreado=Producto::create([
+        $productoCreado=Producto::create([
             'nombre'=> $request->nombre,
             'categoria'=>$request->categoria,
             'descripcion'=>$request->descripcion,
@@ -50,7 +53,10 @@ class ProductoController extends Controller
             'modal_id' => 'modal' . $request->nombre,  
             'imnage_path'=>$imagen     
         ]);
-        return response()->json($usuarioCreado);
+        return response()->json([
+            'success'=>true,
+            'producto'=>$productoCreado
+        ],201);
     }
 
     /**
