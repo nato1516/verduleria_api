@@ -5,6 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductoController;
 
+
+Route::get('/test-cloudinary', function(){
+
+    return config('cloudinary.cloud_url');
+
+});
 Route::post('/login', [UserController::class, 'login']);
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::resource('usuarios', UserController::class);
