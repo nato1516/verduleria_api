@@ -99,7 +99,6 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-
         $request->validate([
             'nombre' => 'required',
             'categoria' => 'required',
@@ -107,30 +106,24 @@ class ProductoController extends Controller
             'precio' => 'required|numeric',
             'precio_mayor' => 'required|numeric',
             'activo' => 'required',
-            'image_path' => 'nullable|mimes:jpg,jpeg,png|max:2024'
+            'image_path' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-
-        $producto->nombre = $request->nombre;
-        $producto->categoria = $request->categoria;
-        $producto->descripcion = $request->descripcion;
-        $producto->precio = $request->precio;
-        $producto->precio_mayor = $request->precio_mayor;
-        $producto->activo = $request->activo;
-
-
-        // Si viene una nueva imagen
         if ($request->hasFile('image_path')) {
 
-            $imagen = $request->file('image_path')
-                ->store('productos', 'public');
+            $imagen = $request->file('image_path')->store('productos', 'public');
 
             $producto->image_path = $imagen;
         }
 
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->categoria = $request->categoria;
+        $producto->precio = $request->precio;
+        $producto->precio_mayor = $request->precio_mayor;
+        $producto->activo = $request->activo;
 
         $producto->save();
-
 
         return response()->json([
             'success' => true,
