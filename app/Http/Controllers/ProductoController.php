@@ -38,8 +38,16 @@ class ProductoController extends Controller
             'descripcion' => 'nullable',
             'precio' => 'required|numeric',
             'precio_mayor' => 'required|numeric',
-            'image_path'=>'nullable|mimes:jpg,jpeg,png|max:2024'
+            'image_path' => 'nullable|mimes:jpg,jpeg,png|max:2024'
         ]);
+
+
+        $imagen = null;
+
+        if ($request->hasFile('image_path')) {
+
+            $imagen = $request->file('image_path')->store('productos', 'public');
+        }
 
 
         $productoCreado = Producto::create([
@@ -56,7 +64,7 @@ class ProductoController extends Controller
 
             'modal_id' => 'modal' . $request->nombre,
 
-            'image_path' => $request->image_path
+            'image_path' => $imagen
 
         ]);
 
