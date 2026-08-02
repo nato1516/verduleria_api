@@ -77,9 +77,13 @@ class ProductoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Producto $productos)
+    public function show(Producto $producto)
     {
-        //
+        $productoEncontrado = Producto::where('id', $producto->id)->first();
+        return response()->json([
+            'success' => true,
+            'producto' => $productoEncontrado
+        ]);
     }
 
     /**
@@ -93,9 +97,45 @@ class ProductoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $productos)
+    public function update(Request $request, Producto $producto)
     {
-        //
+
+        $request->validate([
+            'nombre' => 'required',
+            'categoria' => 'required',
+            'descripcion' => 'nullable',
+            'precio' => 'required|numeric',
+            'precio_mayor' => 'required|numeric',
+            'activo' => 'required',
+            'image_path' => 'nullable|mimes:jpg,jpeg,png|max:2024'
+        ]);
+
+
+        $producto->nombre = $request->nombre;
+        $producto->categoria = $request->categoria;
+        $producto->descripcion = $request->descripcion;
+        $producto->precio = $request->precio;
+        $producto->precio_mayor = $request->precio_mayor;
+        $producto->activo = $request->activo;
+
+
+        // Si viene una nueva imagen
+        if ($request->hasFile('image_path')) {
+
+            $imagen = $request->file('image_path')
+                ->store('productos', 'public');
+
+            $producto->image_path = $imagen;
+        }
+
+
+        $producto->save();
+
+
+        return response()->json([
+            'success' => true,
+            'producto' => $producto
+        ]);
     }
 
     /**
