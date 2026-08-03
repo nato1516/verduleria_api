@@ -52,7 +52,7 @@ class ProductoController extends Controller
 
             'precio_mayor' => 'required|numeric',
 
-            'image_path' => 'nullable|image|mimes:jpg,jpeg,png|max:2024'
+            'image_path' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
 
         ]);
 
@@ -64,50 +64,63 @@ class ProductoController extends Controller
 
         if ($request->hasFile('image_path')) {
 
+            try {
 
-            $imagen = Cloudinary::upload(
+                $imagen = Cloudinary::upload(
 
-                $request->file('image_path')->getRealPath(),
+                    $request->file('image_path')->getRealPath(),
 
-                [
-                    'folder' => 'productos'
-                ]
+                    [
+                        'folder' => 'productos'
+                    ]
 
-            )->getSecurePath();
+                )->getSecurePath();
 
+            } catch (\Throwable $e) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al subir imagen a Cloudinary',
+                    'error' => $e->getMessage()
+                ], 500);
+
+            }
 
         }
 
 
 
-        $productoCreado = Producto::create([
+        try {
 
+            $productoCreado = Producto::create([
 
-            'nombre' => $request->nombre,
+                'nombre' => $request->nombre,
 
+                'categoria' => $request->categoria,
 
-            'categoria' => $request->categoria,
+                'descripcion' => $request->descripcion,
 
+                'precio' => $request->precio,
 
-            'descripcion' => $request->descripcion,
+                'precio_mayor' => $request->precio_mayor,
 
+                'modal_id' => 'modal' . $request->nombre,
 
-            'precio' => $request->precio,
+                'image_path' => $imagen,
 
+                'activo' => 'activo'
 
-            'precio_mayor' => $request->precio_mayor,
+            ]);
 
+        } catch (\Throwable $e) {
 
-            'modal_id' => 'modal' . $request->nombre,
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al guardar el producto en la base de datos',
+                'error' => $e->getMessage()
+            ], 500);
 
-
-            'image_path' => $imagen,
-
-
-            'activo' => 'activo'
-
-
-        ]);
+        }
 
 
 
@@ -118,7 +131,7 @@ class ProductoController extends Controller
 
             'producto' => $productoCreado
 
-        ],201);
+        ], 201);
 
     }
 
@@ -189,21 +202,29 @@ class ProductoController extends Controller
 
         if($request->hasFile('image_path')){
 
+            try {
 
-            $imagen = Cloudinary::upload(
+                $imagen = Cloudinary::upload(
 
-                $request->file('image_path')->getRealPath(),
+                    $request->file('image_path')->getRealPath(),
 
-                [
-                    'folder'=>'productos'
-                ]
+                    [
+                        'folder'=>'productos'
+                    ]
 
-            )->getSecurePath();
+                )->getSecurePath();
 
+                $producto->image_path = $imagen;
 
+            } catch (\Throwable $e) {
 
-            $producto->image_path = $imagen;
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error al subir imagen a Cloudinary',
+                    'error' => $e->getMessage()
+                ], 500);
 
+            }
 
         }
 
@@ -211,26 +232,38 @@ class ProductoController extends Controller
 
 
 
-        $producto->nombre = $request->nombre;
+        try {
+
+            $producto->nombre = $request->nombre;
 
 
-        $producto->descripcion = $request->descripcion;
+            $producto->descripcion = $request->descripcion;
 
 
-        $producto->categoria = $request->categoria;
+            $producto->categoria = $request->categoria;
 
 
-        $producto->precio = $request->precio;
+            $producto->precio = $request->precio;
 
 
-        $producto->precio_mayor = $request->precio_mayor;
+            $producto->precio_mayor = $request->precio_mayor;
 
 
-        $producto->activo = $request->activo;
+            $producto->activo = $request->activo;
 
 
 
-        $producto->save();
+            $producto->save();
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el producto',
+                'error' => $e->getMessage()
+            ], 500);
+
+        }
 
 
 
