@@ -287,7 +287,7 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $productos)
     {
-        //
+        //hytujytjtyjytjdwafgrghrthrdth
     }
 
 }
