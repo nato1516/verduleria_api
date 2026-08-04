@@ -12,7 +12,7 @@ Route::get('/test-cloudinary', function(){
 
 });
 Route::post('/login', [UserController::class, 'login']);
-Route::get('/productos',[ProductoController::class, 'index']);
+Route::get('/productos',[ProductoController::class, 'mostrarProductos']);
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::resource('usuarios', UserController::class);
         Route::get('/productos/inactivo', [ProductoController::class, 'inactivo']);
