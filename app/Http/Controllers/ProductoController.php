@@ -4,10 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Cloudinary;
 
 class ProductoController extends Controller
 {
+
+    /**
+     * Sube una imagen a Cloudinary y devuelve la URL segura.
+     */
+    private function subirImagen($archivo)
+    {
+        $cloudinary = new Cloudinary(env('CLOUDINARY_URL'));
+
+        $resultado = $cloudinary->uploadApi()->upload(
+            $archivo->getRealPath(),
+            ['folder' => 'productos']
+        );
+
+        return $resultado['secure_url'];
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -66,15 +82,7 @@ class ProductoController extends Controller
 
             try {
 
-                $imagen = Cloudinary::upload(
-
-                    $request->file('image_path')->getRealPath(),
-
-                    [
-                        'folder' => 'productos'
-                    ]
-
-                )->getSecurePath();
+                $imagen = $this->subirImagen($request->file('image_path'));
 
             } catch (\Throwable $e) {
 
@@ -204,15 +212,7 @@ class ProductoController extends Controller
 
             try {
 
-                $imagen = Cloudinary::upload(
-
-                    $request->file('image_path')->getRealPath(),
-
-                    [
-                        'folder'=>'productos'
-                    ]
-
-                )->getSecurePath();
+                $imagen = $this->subirImagen($request->file('image_path'));
 
                 $producto->image_path = $imagen;
 
@@ -287,7 +287,7 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $productos)
     {
-        //hytujytjtyjytjdwafgrghrthrdth
+        //
     }
 
 }
