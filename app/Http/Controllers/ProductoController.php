@@ -28,6 +28,20 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function totalproductoInactivos(){
+        $productos= Producto::where('activo','inactivo')->count();
+        return response()->json([
+            'success'=>true,
+            'total'=>$productos
+        ],200);
+    }
+     public function totalproductoActivos(){
+        $productos= Producto::where('activo','activo')->count();
+        return response()->json([
+            'success'=>true,
+            'total'=>$productos
+        ],200);
+    }
     public function mostrarProductos()
     {
         $productos = Producto::where('activo', 'activo')->get();
